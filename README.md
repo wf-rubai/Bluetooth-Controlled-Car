@@ -11,10 +11,10 @@ This project creates a two-motor car controlled by an Arduino Uno and a Bluetoot
 | **ENA**    | Always HIGH | Enable Motor A           |
 | **IN1**    | Pin 5       | Motor A - Forward        |
 | **IN2**    | Pin 6       | Motor A - Backward       |
-| **IN3**    | Pin 10       | Motor B - Forward        |
+| **IN3**    | Pin 10      | Motor B - Forward        |
 | **IN4**    | Pin 11      | Motor B - Backward       |
 | **ENB**    | Always HIGH | Enable Motor B           |
-| **GND**    | Arduino GND | Shared ground            |
+| **GND**    | Arduino GND and power GND | Shared ground            |
 | **VCC**    | External 12V| Motor power              |
 | **5V**     | Arduino 5V  | Optional Arduino power   |
 
