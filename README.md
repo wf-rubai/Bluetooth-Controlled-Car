@@ -36,10 +36,86 @@ This project creates a two-motor car controlled by an Arduino Uno and a Bluetoot
 ## **Steps to Build**
 
 1. Connect the **L298N motor driver** to the motors, Arduino, and power supply as described in the wiring diagram.
-2. Upload the modified code (`.ino` file) to the Arduino using the Arduino IDE.
+2. Upload the code (`.ino` file) to the Arduino using the Arduino IDE.
 3. Open the serial monitor (baud rate: `9600`) or pair the Arduino's Bluetooth module with your smartphone using a compatible app.
 4. Send commands via the app or serial monitor to control the car.
    - Example: Sending `F` will make the car move forward, and sending `5` will set the speed to ~50%.
+
+---
+
+```bash
+#define IN1 5   // L298N Motor Driver - Motor A Forward
+#define IN2 6   // L298N Motor Driver - Motor A Backward
+#define IN3 10  // L298N Motor Driver - Motor B Forward
+#define IN4 11  // L298N Motor Driver - Motor B Backward
+
+int command;          // Stores app command state
+int speedValue = 204; // Motor speed (0 - 255)
+
+void setup() {
+  // Set motor driver pins as output
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+
+  // Initialize serial communication
+  Serial.begin(9600);
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    command = Serial.read(); // Read the incoming command
+    Serial.println(command); // Debug: Print the received command
+    Stop(); // Initialize with motors stopped
+
+    // Handle movement commands
+    if (command == 'F') { 
+      forward();
+    } else if (command == 'B') {
+      back();
+    } else if (command == 'L') {
+      left();
+    } else if (command == 'R') {
+      right();
+    } 
+    // Handle speed control using map
+    else if (command >= '0' && command <= '9') {
+      speedValue = map(command - '0', 0, 9, 100, 255); // Map '0'-'9' to speed range (100-255)
+      Serial.print("Speed set to: ");
+      Serial.println(speedValue);
+    }
+  }
+}
+
+void forward() {
+  analogWrite(IN1, speedValue); // Motor A forward
+  analogWrite(IN3, speedValue); // Motor B forward
+}
+
+void back() {
+  analogWrite(IN2, speedValue); // Motor A backward
+  analogWrite(IN4, speedValue); // Motor B backward
+}
+
+void left() {
+  analogWrite(IN3, speedValue); // Motor B forward
+  analogWrite(IN2, speedValue); // Motor A backward
+}
+
+void right() {
+  analogWrite(IN4, speedValue); // Motor B backward
+  analogWrite(IN1, speedValue); // Motor A forward
+}
+
+void Stop() {
+  analogWrite(IN1, 0); // Stop Motor A forward
+  analogWrite(IN2, 0); // Stop Motor A backward
+  analogWrite(IN3, 0); // Stop Motor B forward
+  analogWrite(IN4, 0); // Stop Motor B backward
+}
+
+```
 
 ---
 
