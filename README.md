@@ -1,4 +1,4 @@
-# Arduino Bluetooth-Controlled Car
+# Arduino Bluetooth-Controlled Car 🚗💨
 
 This project creates a two-motor car controlled by an Arduino Uno and a Bluetooth app. The car uses the L298N motor driver for controlling motor speed and direction. 
 
